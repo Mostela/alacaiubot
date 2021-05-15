@@ -42,7 +42,7 @@ app.use(async ctx => {
     }
 });
 
-app.listen( process.env.NODE_PORT, () => {
+app.listen( process.env.PORT, () => {
     console.log("Koa is run!")
 })
 
