@@ -21,10 +21,12 @@ bot.hears("test", (ctx) => {
 
 // Server to send msg to Telegram
 const Koa = require('koa');
+const koaBody = require('koa-body');
 const {sendPhoto} = require("./service/telegram");
 const {sendMsg} = require("./service/telegram");
 const app = new Koa();
 
+app.use(koaBody())
 app.use(async ctx => {
     if (ctx.method === "POST"){
         if (ctx.request.path === "/JOB"){
@@ -37,6 +39,14 @@ app.use(async ctx => {
                     }
                 })
             }
+        }else if (ctx.request.path === "/GRAFANA"){
+            const { message,ruleName,state,title } = ctx.request.body
+            connection.query("SELECT CHAT_ID FROM chats ORDER BY created DESC", function (error, results) {
+                for (const chatid of results) {
+                    sendMsg(title, `# ${ruleName} -- ${message} -- ${state} -- ${title}`, chatid.CHAT_ID)
+                    sendPhoto(chatid.CHAT_ID)
+                }
+            })
         }
         ctx.status = 201
     }

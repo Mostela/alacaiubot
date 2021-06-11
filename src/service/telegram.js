@@ -7,7 +7,7 @@ module.exports = {
     sendMsg: (job_name, error_ex, chat_id) => {
         const data_msg = {
             "chat_id": chat_id,
-            "text": `Houve um erro em um dos jobs: \n ${job_name} \n ERRO MSG > ${error_ex}`}
+            "text": `Houve um erro em uma aplicação: \r\n **${job_name}** \r\n ERRO MSG > ${error_ex}`}
 
         api.post(`${url}/sendMessage`, data_msg)
     },
